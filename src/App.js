@@ -4,21 +4,46 @@ import './App.css';
 import logo from './logo.svg';
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isLoading: true,
+            users: [],
+            error: null
+        }
+    }
 
     componentDidMount() {
         dispatchfetchRandomUsers();
     }
 
     render() {
+        const { isLoading, users, error } = this.state;
+
         return (
-            <div className="App">
+            <React.Fragment>
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="logo" />
-                    <p>
-                        Fetching data from an api using React/Redux
-                    </p>
+
+                    {error ? <p>{error.message}</p> : null}
+                    {!isLoading ? (
+                        users.map(user => {
+                            const { username, name, email } = user;
+                            return (
+                                <div key={username}>
+                                    <p>Name: {name}</p>
+                                    <p>Email Address: {email}</p>
+                                    <hr />
+                                </div>
+                            );
+                        })
+                        // If there is a delay in data, let's let the user know it's loading
+                    ) : (
+                        <h3>Loading...</h3>
+                    )}
                 </header>
-            </div>
+            </React.Fragment>
         );
     }
 }

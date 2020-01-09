@@ -35,7 +35,7 @@ export function ramdomUsers(prevState = DEFAULT_RANDOM_USERS_STATE, action) {
             return {
                 fetchInProgress: false,
                 err: action.err,
-                repos: {},
+                users: {},
             };
     }
 }
