@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { dispatchfetchRandomUsers } from "./actions/random-users";
+import { dispatchfetchRandomUsers } from "./redux/actions/random-users";
 import './App.css';
 import logo from './logo.svg';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
 
 class App extends Component {
     constructor(props) {
@@ -9,7 +11,7 @@ class App extends Component {
 
         this.state = {
             isLoading: true,
-            users: [],
+            users: {},
             error: null
         }
     }
@@ -19,16 +21,14 @@ class App extends Component {
     }
 
     render() {
-        const { isLoading, users, error } = this.state;
+        const { isLoading, users, error } = this.props;
 
         return (
             <React.Fragment>
                 <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-
                     {error ? <p>{error.message}</p> : null}
                     {!isLoading ? (
-                        users.map(user => {
+                        Object.values(users).map(user => {
                             const { username, name, email } = user;
                             return (
                                 <div key={username}>
@@ -48,4 +48,18 @@ class App extends Component {
     }
 }
 
-export default App;
+/**
+ * @desc Pull out the props from the reducer state that will be
+ *   passed along as props to the component.
+ * */
+
+const mapStateToProps = reduxState => {
+    return {
+        users: get(reduxState, 'users') || [],
+        fetchInProgress: get(reduxState, 'fetchInProgress') || false,
+    }
+};
+
+const WrappedAppComponent = connect(mapStateToProps)(App);
+
+export default WrappedAppComponent;

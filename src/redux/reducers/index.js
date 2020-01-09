@@ -4,6 +4,8 @@ import {
     FETCH_RANDOM_USERS_FAILURE
 } from "../action-types";
 
+import keyBy from 'lodash/keyBy';
+
 const DEFAULT_RANDOM_USERS_STATE = {
     users: {},
     fetchInProgress: false,
@@ -29,8 +31,8 @@ export function ramdomUsers(prevState = DEFAULT_RANDOM_USERS_STATE, action) {
             return {
                 fetchInProgress: false,
                 err: null,
-                users: action.users
-            };
+                users: keyBy(action.users, 'id')
+    };
         case FETCH_RANDOM_USERS_FAILURE:
             return {
                 fetchInProgress: false,

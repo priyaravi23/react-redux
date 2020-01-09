@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
-import { ramdomUsers } from "./reducers";
+import { ramdomUsers } from "./reducers/index";
 
 const logger = createLogger({});
 const middlewareConfig = applyMiddleware(thunk, logger);

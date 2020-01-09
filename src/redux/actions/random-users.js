@@ -5,7 +5,7 @@ import {
 } from "../action-types";
 
 import store from '../store';
-import { RANDOM_USERS_URL } from "../utils/constants";
+import { RANDOM_USERS_URL } from "../../utils/constants";
 
 export const fetchRandomUsersStart = () => {
     return {
